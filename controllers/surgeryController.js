@@ -61,7 +61,7 @@ exports.surgery_create_post = [
             patient: req.body.patient,
             doctor: req.body.doctor,
             start_date: req.body.start_date,
-            end_date: req.body.start_hour,
+            end_date: req.body.end_date,
             status: req.body.status
         });
 
@@ -103,7 +103,7 @@ exports.surgery_detail = function(req, res, next) {
                 .exec(callback)
         },
     }, function(err, results) {
-        if (err) { return next(err); } // Error in API usage.
+        if (err) { return next(err); }  // Error in API usage.
         // Successful, so render.
         res.render('surgery_detail', { title: 'Surgery Detail', surgery: results.surgery });
     });
@@ -112,15 +112,19 @@ exports.surgery_detail = function(req, res, next) {
 // Display all surgeries
 exports.surgery_list = function(req, res, next) {
 
-    Surgery.find({}, 'doctor patient')
+  async.parallel({
+      surgery: function(callback) {
+          Surgery.find()
           .populate('doctor')
           .populate('patient')
-        .exec(function(err, list_surgeries) {
-            if (err) { return next(err); }
-            // Successful, so render
-            res.render('surgery_list', { title: 'Surgery List', surgery_list: list_surgeries });
-        })
-
+              .exec(callback)
+      },
+  }, function(err, results) {
+      if (err) { return next(err); }  // Error in API usage.
+      // Successful, so render.
+      console.log(results.surgery);
+      res.render('surgery_list', { title: 'Surgery List', list: results.surgery});
+  });
 };
 
 // Display Surgery delete form on GET

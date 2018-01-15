@@ -5,10 +5,9 @@ var Schema = mongoose.Schema;
 
 var SurgerySchema = new Schema(
   {
-    doctor: {type: Schema.ObjectId, ref: 'Doctor', required: true},
+    doctor: [{type: Schema.ObjectId, ref: 'Doctor', required: true}],
     patient: {type: Schema.ObjectId, ref: 'Patient', required: true},
     start_date: {type: Date, required: true},
-    start_hour: {type: Number, required: true},
     end_date: {type: Date},
     status: {type: String, enum: ['Inactive', 'Active'], default: 'Active'},
   }

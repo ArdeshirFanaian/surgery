@@ -2,11 +2,12 @@ extends layout
 
 block content
   h1= title
+  h3 #[strong Patient:] #{list.patient}
   
-  ul
-  each surgery in surgery_list
-    li 
-      a(href=surgery.url) #{surgery.doctor.name} - #{surgery.patient.name}
-
+  h3 #[strong Doctors:] 
+  each surgery in list
+      each doc in surgery.doctor
+        li
+          a(href=doc.url) #{doc.name}
   else
     li There are no surgeries.

@@ -1,10 +1,11 @@
 extends layout
 
 block content
-  
   h1=title
-  h3 #[strong Doctor:] 
-    a(href=surgery.doctor.url) #{surgery.doctor.name}
+  each doc in surgery.doctor
+    li
+      h3 #[strong Doctor:] 
+        a(href=doc.url) #{doc.name}
   h3 #[strong Patient:] 
     a(href=surgery.patient.url) #{surgery.patient.name}
   h3 #[strong Start Date:] #{surgery.start_date_yyyy_mm_dd}

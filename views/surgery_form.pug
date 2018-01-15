@@ -2,11 +2,14 @@ extends layout
 
 block content
   h1= title
-
+  script(type='text/javascript').
+        $(document).ready(function() {
+        $('#doctor').multiselect();
+        });
   form(method='POST' action='')
     div.form-group
       label(for='doctor') Doctor:
-      select#doctor.form-control(type='select', placeholder='Select doctor' name='doctor' required='true' )
+      select#doctor.form-control(type='select', placeholder='Select doctor' name='doctor' required='true', multiple='multiple')
         for doctor in doctors
           if surgery
             option(value=doctor._id selected=(doctor._id.toString()==doctor._id.toString() ? 'selected' : false) ) #{doctor.name}
@@ -23,7 +26,6 @@ block content
     div.form-group
       label(for='start_date') Surgery start date:
       input#start_date.form-control(type='date', name='start_date' value=(undefined===surgery ? '' : surgery.start_date_yyyy_mm_dd)  required='true' )
-      input#start_hour.form-control(type='time', name='start_hour')
     div.form-group
       label(for='end_date') Surgery end date:
       input#end_date.form-control(type='date', name='end_date', value=(undefined===surgery ? '' : surgery.end_date_yyyy_mm_dd)  required='true')
