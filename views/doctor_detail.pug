@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+  h1=title
+  h3 #[strong Name:] #{doctor.name}
+  h3 #[strong Email:] #{doctor.email}
+  h3 #[strong Phone Number:] #{doctor.phone_number}
+
+  hr
+  p
+    a(href=doctor.url+'/delete') Delete Doctor
+  p
+    a(href=doctor.url+'/update') Update Doctor

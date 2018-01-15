@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+  h1 Delete Doctor: #{doctor.name}
+  
+  if surgeries.length
+  
+    p #[strong Delete the following surgeries before attempting to delete this doctor.]
+  
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Surgeries
+      
+      dl
+      each surgery in surgeries
+        dt
+          a(href=surgery.url) #{doctor.name} - #{surgery.patient.name}
+
+  else
+    p Do you really want to delete this Doctor?
+    
+    form(method='POST' action='')
+      div.form-group
+        input#id.form-control(type='hidden',name='id', required='true', value=doctor._id )
+
+      button.btn.btn-primary(type='submit') Delete

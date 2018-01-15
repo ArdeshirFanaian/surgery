@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  
+  h1=title
+  h3 #[strong Doctor:] 
+    a(href=surgery.doctor.url) #{surgery.doctor.name}
+  h3 #[strong Patient:] 
+    a(href=surgery.patient.url) #{surgery.patient.name}
+  h3 #[strong Start Date:] #{surgery.start_date_yyyy_mm_dd}
+  h3 #[strong End Date:] #{surgery.end_date_yyyy_mm_dd}
+  h3 #[strong Status:] 
+    if surgery.status=='Active'
+      span.text-success #{surgery.status}
+    else 
+      span.text-danger #{surgery.status}
+      
+  hr
+  p
+    a(href=surgery.url+'/delete') Delete Surgery
+  p
+    a(href=surgery.url+'/update') Update Surgery

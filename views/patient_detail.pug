@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+  h1=title
+  h3 #[strong Name:] #{patient.name}
+  h3 #[strong Email:] #{patient.email}
+  h3 #[strong Phone Number:] #{patient.phone_number}
+  h3 #[strong Insurance ID:] #{patient.insurance_id}
+
+  hr
+  p
+    a(href=patient.url+'/delete') Delete Patient
+  p
+    a(href=patient.url+'/update') Update Patient

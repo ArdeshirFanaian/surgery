@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+  h1= title
+  
+  p #[strong Do you really want to delete this Surgery?]
+  
+  div(style="margin-left:20px")
+  
+    p #[strong Doctor:] 
+      a(href=surgery.doctor.url) #{surgery.doctor.name}
+    
+    p #[strong Patient:] 
+      a(href=surgery.patient.url) #{surgery.patient.name}
+    
+    p #[strong Start Date:] #{surgery.start_date_yyyy_mm_dd}
+    
+    p #[strong End Date:] #{surgery.end_date_yyyy_mm_dd}
+
+    p #[strong Status:] 
+      if surgery.status=='Active'
+        span.text-success #{surgery.status}
+      else 
+        span.text-danger #{surgery.status}
+
+  form(method='POST' action='')
+    div.form-group
+      input#id.form-control(type='hidden',name='id', required='true', value=surgery._id )
+
+    button.btn.btn-primary(type='submit') Delete
