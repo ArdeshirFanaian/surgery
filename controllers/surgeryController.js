@@ -40,15 +40,15 @@ exports.surgery_create_post = [
     // Validate fields
     check('doctor', 'Doctor must not be empty.').trim(),
     check('patient', 'Patient must not be empty.').isLength({ min: 1 }).trim(),
-    check('start_date', 'Invalid start date').isISO8601(),
-    check('end_date', 'Invalid end date').isISO8601(),
+    // check('start_date', 'Invalid start date').isISO8601(),
+    // check('end_date', 'Invalid end date').isISO8601(),
 
     // Sanitize fields
     sanitizeBody('doctor'),
     sanitizeBody('patient'),
     sanitizeBody('status').trim().escape(),
-    sanitizeBody('start_date').toDate(),
-    sanitizeBody('end_date').toDate(),
+    // sanitizeBody('start_date').toDate(),
+    // sanitizeBody('end_date').toDate(),
     // Process request after validation and sanitization
     (req, res, next) => {
 
@@ -61,7 +61,9 @@ exports.surgery_create_post = [
             patient: req.body.patient,
             doctor: req.body.doctor,
             start_date: req.body.start_date,
+            start_time: req.body.start_time,
             end_date: req.body.end_date,
+            end_time: req.body.end_time,
             status: req.body.status
         });
 
@@ -93,54 +95,21 @@ exports.surgery_create_post = [
     }
 ];
 
-exports.surgery_detail = function(req, res, next) {
-
-    async.parallel({
-        surgery: function(callback) {
-            Surgery.findById(req.params.id)
-            .populate('doctor')
-            .populate('patient')
-                .exec(callback)
-        },
-    }, function(err, results) {
-        if (err) { return next(err); }  // Error in API usage.
-        // Successful, so render.
-        res.render('surgery_detail', { title: 'Surgery Detail', surgery: results.surgery });
-    });
-};
-
-// Display all surgeries
-exports.surgery_list = function(req, res, next) {
-
-  async.parallel({
-      surgery: function(callback) {
-          Surgery.find()
-          .populate('doctor')
-          .populate('patient')
-              .exec(callback)
-      },
-  }, function(err, results) {
-      if (err) { return next(err); }  // Error in API usage.
-      // Successful, so render.
-      console.log(results.surgery);
-      res.render('surgery_list', { title: 'Surgery List', list: results.surgery});
-  });
-};
 
 // Display Surgery delete form on GET
 exports.surgery_delete_get = function(req, res, next) {
 
     Surgery.findById(req.params.id)
-    .populate('doctor')
-    .populate('patient')
-    .exec(function (err, surgery) {
-        if (err) { return next(err); }
-        if (surgery==null) { // No results.
-            res.redirect('/schedule/surgeries');
-        }
-        // Successful, so render.
-        res.render('surgery_delete', { title: 'Delete Surgery', surgery: surgery});
-    })
+        .populate('doctor')
+        .populate('patient')
+        .exec(function(err, surgery) {
+            if (err) { return next(err); }
+            if (surgery == null) { // No results.
+                res.redirect('/schedule/surgeries');
+            }
+            // Successful, so render.
+            res.render('surgery_delete', { title: 'Delete Surgery', surgery: surgery });
+        })
 
 };
 
@@ -152,7 +121,7 @@ exports.surgery_delete_post = function(req, res, next) {
         if (err) { return next(err); }
         // Success, so redirect to list of Surgery items.
         res.redirect('/schedule/surgeries');
-        });
+    });
 
 };
 
@@ -175,22 +144,22 @@ exports.surgery_update_get = function(req, res, next) {
         },
 
     }, function(err, results) {
-          if (err) { return next(err); }
-          if (results.surgery==null) { // No results.
-              var err = new Error('Surgery not found');
-              err.status = 404;
-              return next(err);
-          }
-          // Success.
-          res.render('surgery_form', {
+        if (err) { return next(err); }
+        if (results.surgery == null) { // No results.
+            var err = new Error('Surgery not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('surgery_form', {
             title: 'Update Surgery',
-            selected_doctor : results.surgery.doctor._id,
-            selected_patient : results.surgery.patient._id,
-            surgery:results.surgery,
+            selected_doctor: results.surgery.doctor._id,
+            selected_patient: results.surgery.patient._id,
+            surgery: results.surgery,
             doctors: results.doctors,
             patients: results.patients
-          });
-      });
+        });
+    });
 
 };
 
@@ -200,14 +169,14 @@ exports.surgery_update_post = [
     // Validate fields
     check('doctor', 'Doctor must not be empty.').trim(),
     check('patient', 'Patient must not be empty.').isLength({ min: 1 }).trim(),
+    check('start_time', 'Start time must not be empty.').isLength({ min: 1 }).trim(),
+    check('end_time', 'End time must not be empty.').isLength({ min: 1 }).trim(),
     check('start_date', 'Invalid start date').isISO8601(),
     check('end_date', 'Invalid end date').isISO8601(),
     // Sanitize fields
     sanitizeBody('doctor'),
     sanitizeBody('patient'),
     sanitizeBody('status').trim().escape(),
-    sanitizeBody('start_date').toDate(),
-    sanitizeBody('end_date').toDate(),
 
     // Process request after validation and sanitization
     (req, res, next) => {
@@ -220,7 +189,9 @@ exports.surgery_update_post = [
             patient: req.body.patient,
             doctor: req.body.doctor,
             start_date: req.body.start_date,
+            start_time: req.body.start_time,
             end_date: req.body.end_date,
+            end_time: req.body.end_time,
             status: req.body.status,
             _id: req.params.id
         });
@@ -239,19 +210,89 @@ exports.surgery_update_post = [
                 if (err) { return next(err); }
 
                 res.render('surgery_form', {
-                  title: 'Update Surgery',
-                  doctors: results.doctors,
-                  patients: results.patients });
+                    title: 'Update Surgery',
+                    doctors: results.doctors,
+                    patients: results.patients
+                });
             });
             return;
-        }
-        else {
+        } else {
             // Data from form is valid.
-            Surgery.findByIdAndUpdate(req.params.id, surgery, {}, function (err,result) {
+            Surgery.findByIdAndUpdate(req.params.id, surgery, {}, function(err, result) {
                 if (err) { return next(err); }
-                   // Successful - redirect to detail page.
-                   res.redirect(result.url);
-                });
+                // Successful - redirect to detail page.
+                res.redirect(result.url);
+            });
         }
     }
 ];
+
+exports.surgery_detail = function(req, res, next) {
+
+    async.parallel({
+        surgery: function(callback) {
+            Surgery.findById(req.params.id)
+                .populate('doctor')
+                .populate('patient')
+                .exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        // Successful, so render.
+        res.render('surgery_detail', { title: 'Surgery Detail', surgery: results.surgery });
+    });
+};
+
+// Display all surgeries
+exports.surgery_list = function(req, res, next) {
+
+    async.parallel({
+        surgery: function(callback) {
+            Surgery.find()
+                .populate('doctor')
+                .populate('patient')
+                .exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        // Successful, so render.
+        res.render('surgery_list', { title: 'Surgery List', list: results.surgery });
+    });
+};
+
+exports.surgery_find_get = function(req, res, next) {
+
+    async.parallel({
+        doctors: function(callback) {
+            Doctor.find(callback);
+        },
+        patients: function(callback) {
+            Patient.find(callback);
+        },
+    }, function(err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        // Successful, so render.
+        res.render('surgery_find', {
+            title: 'Find Surgeries',
+            doctors: results.doctors,
+            patients: results.patients
+        });
+    });
+};
+
+exports.surgery_find_post_get = function(req, res, next) {
+    async.parallel({
+        surgeries: function(callback) {
+            Surgery.find({ 'doctor': req.params.id })
+            .exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        // Successful, so render.
+        console.log(results.surgeries);
+        res.redirect('/search', {
+            title: 'Find Surgeries',
+            surgeries: results.surgeries
+        });
+    });
+};

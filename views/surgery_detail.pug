@@ -2,14 +2,15 @@ extends layout
 
 block content
   h1=title
+  h3 #[strong Doctor:] 
   each doc in surgery.doctor
     li
-      h3 #[strong Doctor:] 
-        a(href=doc.url) #{doc.name}
+      a(href=doc.url) 
+        h3 #{doc.name}
   h3 #[strong Patient:] 
     a(href=surgery.patient.url) #{surgery.patient.name}
-  h3 #[strong Start Date:] #{surgery.start_date_yyyy_mm_dd}
-  h3 #[strong End Date:] #{surgery.end_date_yyyy_mm_dd}
+  h3 #[strong Start Date:] #{surgery.start_date_formatted}
+  h3 #[strong End Date:] #{surgery.end_date_formatted}
   h3 #[strong Status:] 
     if surgery.status=='Active'
       span.text-success #{surgery.status}

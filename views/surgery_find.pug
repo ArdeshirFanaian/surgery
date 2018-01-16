@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1= title
+  form(method='GET' action='')
+    div.form-group
+      label(for='doctor') Doctor: 
+      select#doctor.form-control(type='select', placeholder='Select doctor' name='doctor')
+        option(value='') None
+        for doctor in doctors
+          option(value=doctor._id) #{doctor.name}
+    div.form-group
+      label(for='patient') Patient:
+      select#patient.form-control(type='select', placeholder='Select patient' name='patient')
+        option(value='') None
+        for patient in patients
+          option(value=patient._id) #{patient.name}
+    div.form-group
+      label(for='start_date') Surgery start date:
+      input#start_date.form-control(type='date', name='start_date' value=(undefined===surgery ? '' : surgery.start_date))
+    //- div.form-group
+    //-   label(for='end_date') Surgery end date:
+    //-   input#end_date.form-control(type='date', name='end_date', value=(undefined===surgery ? '' : surgery.end_date)  required='true')
+    div.form-group
+      label(for='status') Status:
+      select#status.form-control(type='select', placeholder='Select status' name='status')
+        option(value='') None
+        option(value='Active') Active
+        option(value='Inactive') Inactive
+    button.btn.btn-primary(type='submit') Search
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg
+  
+  if surgeries
+    p #{surgeries.doctor.name}

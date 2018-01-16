@@ -1,12 +1,27 @@
 extends layout
 
 block content
+  - var index = 1;
   h1= title
-  
-  ul
-  each doctor in doctor_list
-    li 
-      a(href=doctor.url) #{doctor.name} 
+  table.table.table-striped.table-responsive
+    thead
+      tr
+        th(scope='col') #
+        th(scope='col') Name
+        th(scope='col') Phone Number
+        th(scope='col') Email
+    tbody
+      each doctor in doctor_list
+        tr
+          th(scope='row') #{index++}
+          td 
+            a(href=doctor.url) #{doctor.name}
+          td #{doctor.phone_number}
+          td #{doctor.email}
 
-  else
-    li There are no doctors.
+      else
+        li There are no doctors.
+  br 
+  br
+  h3
+    a(href='/schedule/doctor/create') + Create new doctor

@@ -22,7 +22,7 @@ exports.doctor_list = function(req, res, next) {
         .exec(function(err, list_doctors) {
             if (err) { return next(err); }
             // Successful, so render
-            res.render('doctor_list', { title: 'Doctor List', doctor_list: list_doctors });
+            res.render('doctor_list', { title: 'Doctor/s List', doctor_list: list_doctors });
         })
 
 };

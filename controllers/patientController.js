@@ -15,7 +15,7 @@ exports.patient_list = function(req, res, next) {
         .exec(function(err, list_patients) {
             if (err) { return next(err); }
             // Successful, so render
-            res.render('patient_list', { title: 'Patient List', patient_list: list_patients });
+            res.render('patient_list', { title: 'Patient/s List', patient_list: list_patients });
         })
 
 };

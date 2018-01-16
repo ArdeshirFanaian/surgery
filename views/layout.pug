@@ -11,27 +11,20 @@ html(lang='en')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap-multiselect.css')
   body
-    div(class='container-fluid')
-      div(class='row')
-        div(class='col-sm-2')
-          block sidebar
-            ul(class='sidebar-nav')
-              li 
-                a(href='/schedule') Home
-              li 
-                a(href='/schedule/doctors') All Doctors
-              li 
-                a(href='/schedule/patients') All Patients
-              li 
-                a(href='/schedule/surgeries') All Surgeries
-              li 
-                hr
-              li 
-                a(href='/schedule/patient/create') Create new patient
-              li 
-                a(href='/schedule/surgery/create') Create new surgery
-              li 
-                a(href='/schedule/doctor/create') Create new doctor
-                
-        div(class='col-sm-10')
-          block content
+    div.container
+      nav.navbar.navbar-default
+        .container-fluid
+          .navbar-header
+            a.navbar-brand(href='/schedule') Surgery Schedule
+          ul.nav.navbar-nav
+            li
+              a(href='/schedule/doctors') Doctors
+            li
+              a(href='/schedule/patients') Patients
+            li
+              a(href='/schedule/surgeries') Surgeries
+            li
+              a(href='/schedule/search') Find
+      
+      div(class='col-sm-10')
+        block content

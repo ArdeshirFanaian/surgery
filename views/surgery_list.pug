@@ -1,13 +1,34 @@
 extends layout
 
 block content
+  - var index = 1;
   h1= title
-  h3 #[strong Patient:] #{list.patient}
-  
-  h3 #[strong Doctors:] 
-  each surgery in list
-      each doc in surgery.doctor
-        li
-          a(href=doc.url) #{doc.name}
-  else
-    li There are no surgeries.
+  ul
+  table.table.table-striped.table-responsive
+    thead
+      tr
+        th(scope='col') #
+        th(scope='col') Doctor/s
+        th(scope='col') Patient
+        th(scope='col') Start Time
+        th(scope='col') End Time
+    tbody
+      each item in list
+        tr
+          th(scope='row') 
+            a(href=item.url) Surgery ##{index++}
+          td 
+            each doc in item.doctor
+              li
+                a(href=doc.url) #{doc.name}
+          td 
+            a(href=item.patient.url) #{item.patient.name}
+          td #{item.start_date_formatted}
+          td #{item.end_date_formatted}
+
+      else
+        li There are no surgeries.
+  br
+  br
+  h3 
+    a(href='/schedule/surgery/create') + Create new surgery

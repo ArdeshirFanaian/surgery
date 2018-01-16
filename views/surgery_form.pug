@@ -8,7 +8,7 @@ block content
         });
   form(method='POST' action='')
     div.form-group
-      label(for='doctor') Doctor:
+      label(for='doctor') Doctor: 
       select#doctor.form-control(type='select', placeholder='Select doctor' name='doctor' required='true', multiple='multiple')
         for doctor in doctors
           if surgery
@@ -25,10 +25,16 @@ block content
             option(value=patient._id) #{patient.name}
     div.form-group
       label(for='start_date') Surgery start date:
-      input#start_date.form-control(type='date', name='start_date' value=(undefined===surgery ? '' : surgery.start_date_yyyy_mm_dd)  required='true' )
+      input#start_date.form-control(type='date', name='start_date' value=(undefined===surgery ? '' : surgery.start_date)  required='true' )
+    div.form-group
+      label(for='start_time') Surgery start time:
+      input#start_time.form-control(type='time', name='start_time' value=(undefined===surgery ? '' : surgery.start_time)  required='true' )
     div.form-group
       label(for='end_date') Surgery end date:
-      input#end_date.form-control(type='date', name='end_date', value=(undefined===surgery ? '' : surgery.end_date_yyyy_mm_dd)  required='true')
+      input#end_date.form-control(type='date', name='end_date', value=(undefined===surgery ? '' : surgery.end_date)  required='true')
+    div.form-group
+      label(for='end_time') Surgery end time:
+      input#end_time.form-control(type='time', name='end_time', value=(undefined===surgery ? '' : surgery.end_time)  required='true')
     div.form-group
       label(for='status') Status:
       select#status.form-control(type='select', placeholder='Select status' name='status' required='true' )

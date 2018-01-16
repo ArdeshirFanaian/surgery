@@ -1,12 +1,29 @@
 extends layout
 
 block content
+  - var index = 1;
   h1= title
-  
-  ul
-  each patient in patient_list
-    li 
-      a(href=patient.url) #{patient.name} 
+  table.table.table-striped.table-responsive
+    thead
+      tr
+        th(scope='col') #
+        th(scope='col') Name
+        th(scope='col') Phone Number
+        th(scope='col') Email
+        th(scope='col') Insurance ID
+    tbody
+      each patient in patient_list
+        tr
+          th(scope='row') #{index++}
+          td 
+            a(href=patient.url) #{patient.name}
+          td #{patient.phone_number}
+          td #{patient.email}
+          td #{patient.insurance_id}
 
-  else
-    li There are no patients.
+      else
+        li There are no patients.
+  br
+  br
+  h3
+    a(href='/schedule/patient/create') + Create new patient

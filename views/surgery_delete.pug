@@ -3,20 +3,18 @@ extends layout
 block content
 
   h1= title
-  
   p #[strong Do you really want to delete this Surgery?]
-  
   div(style="margin-left:20px")
-  
-    p #[strong Doctor:] 
-      a(href=surgery.doctor.url) #{surgery.doctor.name}
-    
+    p #[strong Doctor/s:] 
+      each doc in surgery.doctor
+        li
+          a(href=doc.url) #{doc.name}
     p #[strong Patient:] 
       a(href=surgery.patient.url) #{surgery.patient.name}
     
-    p #[strong Start Date:] #{surgery.start_date_yyyy_mm_dd}
+    p #[strong Start Date:] #{surgery.start_date_formatted}
     
-    p #[strong End Date:] #{surgery.end_date_yyyy_mm_dd}
+    p #[strong End Date:] #{surgery.end_date_formatted}
 
     p #[strong Status:] 
       if surgery.status=='Active'
