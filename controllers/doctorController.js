@@ -8,7 +8,7 @@ const { sanitizeBody } = require('express-validator/filter');
 // GET schedule home page.
 exports.index = function(req, res) {
 
-    res.render('index', { title: 'Index' })
+    res.render('index', { title: 'We\'re here to help you' })
 
 };
 
@@ -38,6 +38,7 @@ exports.doctor_create_post = [
     // Validate fields
     check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
     .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('phone_number').isLength({ min: 10, max:10 }).trim().withMessage('Phone Number should be 10 digits'),
     check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
     .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
     check('email').isEmail().isLength({ min: 1 }).withMessage('must be an email').trim().normalizeEmail(),

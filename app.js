@@ -9,8 +9,12 @@ var mongoose = require('mongoose');
 var index = require('./routes');
 var users = require('./routes/users');
 var schedule = require('./routes/schedule');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var app = express();
+
+app.use(helmet());
 
 //Set up default mongoose connection
 var mongoDB = process.env.MONGODB_URI || 'mongodb://ardeshir:db1234@ds137207.mlab.com:37207/surgery-schedule';
@@ -33,6 +37,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression()); //Compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);

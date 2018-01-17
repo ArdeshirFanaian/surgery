@@ -10,3 +10,7 @@ li {
 th, td, h1 {
   text-align: center;
 }
+
+img {
+  align-content: center;
+}

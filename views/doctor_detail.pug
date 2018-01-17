@@ -2,13 +2,16 @@ extends layout
 
 block content
 
-  h1=title
-  h3 #[strong Name:] #{doctor.name}
-  h3 #[strong Email:] #{doctor.email}
-  h3 #[strong Phone Number:] #{doctor.phone_number}
+  .container
+    h1=title
+    .col-sm-offset-4
+      br
+      h3 #[strong Name:] #{doctor.name}
+      h3 #[strong Email:] #{doctor.email}
+      h3 #[strong Phone Number:] #{doctor.phone_number}
 
-  hr
-  p
-    a(href=doctor.url+'/delete') Delete Doctor
-  p
-    a(href=doctor.url+'/update') Update Doctor
+    hr
+    h3.text-center
+      a(href=doctor.url+'/delete') Delete Doctor
+    h3.text-center
+      a(href=doctor.url+'/update') Update Doctor

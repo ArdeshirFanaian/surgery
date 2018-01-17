@@ -2,26 +2,27 @@ extends layout
 
 block content
   - var index = 1;
-  h1= title
-  table.table.table-striped.table-responsive
-    thead
-      tr
-        th(scope='col') #
-        th(scope='col') Name
-        th(scope='col') Phone Number
-        th(scope='col') Email
-    tbody
-      each doctor in doctor_list
+  .container.col-sm-offset-1.col-sm-11
+    h1= title
+    table.table.table-striped.table-responsive
+      thead
         tr
-          th(scope='row') #{index++}
-          td 
-            a(href=doctor.url) #{doctor.name}
-          td #{doctor.phone_number}
-          td #{doctor.email}
+          th(scope='col') #
+          th(scope='col') Name
+          th(scope='col') Phone Number
+          th(scope='col') Email
+      tbody
+        each doctor in doctor_list
+          tr
+            th(scope='row') #{index++}
+            td 
+              a(href=doctor.url) #{doctor.name}
+            td #{doctor.phone_number}
+            td #{doctor.email}
 
-      else
-        li There are no doctors.
-  br 
-  br
-  h3
-    a(href='/schedule/doctor/create') + Create new doctor
+        else
+          li There are no doctors.
+    br 
+    br
+    h3
+      a(href='/schedule/doctor/create') + Create new doctor

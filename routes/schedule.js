@@ -86,7 +86,4 @@ router.get('/surgery/:id/update', surgery_controller.surgery_update_get);
 // POST request to update Surgery
 router.post('/surgery/:id/update', surgery_controller.surgery_update_post);
 
-// GET request to find Surgeries
-router.get('/search', surgery_controller.surgery_find_get, surgery_controller.surgery_find_post_get);
-
 module.exports = router;

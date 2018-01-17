@@ -38,17 +38,16 @@ exports.surgery_create_post = [
     },
 
     // Validate fields
-    check('doctor', 'Doctor must not be empty.').trim(),
+    check('doctor', 'Doctor must not be empty.').trim().isLength({ min: 1}),
     check('patient', 'Patient must not be empty.').isLength({ min: 1 }).trim(),
-    // check('start_date', 'Invalid start date').isISO8601(),
-    // check('end_date', 'Invalid end date').isISO8601(),
+    check('start_date', 'Invalid start date').isISO8601(),
+    check('end_date', 'Invalid end date').isISO8601(),
 
     // Sanitize fields
     sanitizeBody('doctor'),
     sanitizeBody('patient'),
     sanitizeBody('status').trim().escape(),
-    // sanitizeBody('start_date').toDate(),
-    // sanitizeBody('end_date').toDate(),
+
     // Process request after validation and sanitization
     (req, res, next) => {
 
@@ -253,16 +252,6 @@ exports.surgery_list = function(req, res, next) {
                 .populate('patient')
                 .exec(callback)
         },
-    }, function(err, results) {
-        if (err) { return next(err); } // Error in API usage.
-        // Successful, so render.
-        res.render('surgery_list', { title: 'Surgery List', list: results.surgery });
-    });
-};
-
-exports.surgery_find_get = function(req, res, next) {
-
-    async.parallel({
         doctors: function(callback) {
             Doctor.find(callback);
         },
@@ -272,27 +261,38 @@ exports.surgery_find_get = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); } // Error in API usage.
         // Successful, so render.
-        res.render('surgery_find', {
-            title: 'Find Surgeries',
+        async.parallel({
+          surgeries: function(callback) {
+            var findObj = {
+              'doctor': req.query.doctor,
+              'patient': req.query.patient,
+              'start_date': req.query.start_date,
+              'end_date': req.query.end_date,
+              'status': req.query.status
+            }
+            for (i in findObj) {
+                if (findObj[i]==='') {
+                  delete findObj[i]
+                }
+            }
+              Surgery.find(findObj)
+              .populate('doctor')
+              .populate('patient')
+              .exec(callback)
+          },
+        }, function(err, result, findObj) {
+          if (err) {
+            return next(err)
+          }
+        res.render('surgery_list', {
+            title: 'Surgery List',
+            title1: 'Find Surgeries',
+            list: results.surgery,
+            found_surgery: result.surgeries,
             doctors: results.doctors,
-            patients: results.patients
-        });
-    });
-};
+            patients: results.patients,
+        })
 
-exports.surgery_find_post_get = function(req, res, next) {
-    async.parallel({
-        surgeries: function(callback) {
-            Surgery.find({ 'doctor': req.params.id })
-            .exec(callback)
-        },
-    }, function(err, results) {
-        if (err) { return next(err); } // Error in API usage.
-        // Successful, so render.
-        console.log(results.surgeries);
-        res.redirect('/search', {
-            title: 'Find Surgeries',
-            surgeries: results.surgeries
-        });
+    });
     });
 };

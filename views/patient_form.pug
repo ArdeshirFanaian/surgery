@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1=title
-  form(method='POST' action='')
+  form.col-sm-offset-3(method='POST' action='').col-sm-6
     div.form-group
       label(for='first_name') First Name:
       input#first_name.form-control(type='text', placeholder='First name' name='first_name' required='true' value=(undefined===patient ? '' : patient.first_name) )
@@ -17,8 +17,9 @@ block content
       input#phone_number.form-control(type='tel', placeholder='Phone Number' name='phone_number' value=(undefined===patient ? '' : patient.phone_number) )
     div.form-group
       label(for='insurance_id') Insurance Id:
-      input#insurance_id.form-control(type='number', placeholder='Insurance ID should be 8 digits' name='insurance_id' value=(undefined===patient ? '' : patient.insurance_id) )
-    button.btn.btn-primary(type='submit') Submit
+      input#insurance_id.form-control(type='number', minLength:'10', placeholder='Insurance ID should be 8 digits' name='insurance_id' value=(undefined===patient ? '' : patient.insurance_id) )
+    br
+    button.btn.btn-primary.btn-lg.col-sm-offset-5(type='submit') Submit
 
   if errors
     ul

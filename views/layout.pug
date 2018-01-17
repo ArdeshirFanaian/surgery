@@ -11,20 +11,39 @@ html(lang='en')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap-multiselect.css')
   body
-    div.container
+    div.container-fluid
       nav.navbar.navbar-default
         .container-fluid
           .navbar-header
             a.navbar-brand(href='/schedule') Surgery Schedule
-          ul.nav.navbar-nav
-            li
-              a(href='/schedule/doctors') Doctors
-            li
-              a(href='/schedule/patients') Patients
-            li
-              a(href='/schedule/surgeries') Surgeries
-            li
-              a(href='/schedule/search') Find
-      
+            ul.nav.navbar-nav
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                  | Doctors 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='/schedule/doctor/create') Create new doctor
+                  li
+                    a(href='/schedule/doctors') List of doctors
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                  | Patients 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='/schedule/patient/create') Create new patient
+                  li
+                    a(href='/schedule/patients') List of patients
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                  | Surgeries 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='/schedule/surgery/create') Create new surgery
+                  li
+                    a(href='/schedule/surgeries') Find a surgery
+
       div(class='col-sm-10')
         block content

@@ -1,24 +1,26 @@
 extends layout
 
 block content
-  h1=title
-  h3 #[strong Doctor:] 
-  each doc in surgery.doctor
-    li
-      a(href=doc.url) 
-        h3 #{doc.name}
-  h3 #[strong Patient:] 
-    a(href=surgery.patient.url) #{surgery.patient.name}
-  h3 #[strong Start Date:] #{surgery.start_date_formatted}
-  h3 #[strong End Date:] #{surgery.end_date_formatted}
-  h3 #[strong Status:] 
-    if surgery.status=='Active'
-      span.text-success #{surgery.status}
-    else 
-      span.text-danger #{surgery.status}
-      
-  hr
-  p
-    a(href=surgery.url+'/delete') Delete Surgery
-  p
-    a(href=surgery.url+'/update') Update Surgery
+  .container
+    h1=title
+    .col-sm-offset-4
+      h3 #[strong Doctor:] 
+      each doc in surgery.doctor
+        li
+          a(href=doc.url) 
+            h3 #{doc.name}
+      h3 #[strong Patient:] 
+        a(href=surgery.patient.url) #{surgery.patient.name}
+      h3 #[strong Start Date:] #{surgery.start_date_formatted}
+      h3 #[strong End Date:] #{surgery.end_date_formatted}
+      h3 #[strong Status:] 
+        if surgery.status=='Active'
+          span.text-success #{surgery.status}
+        else 
+          span.text-danger #{surgery.status}
+          
+    hr
+    h3.text-center
+      a(href=surgery.url+'/delete') Delete Surgery
+    h3.text-center
+      a(href=surgery.url+'/update') Update Surgery

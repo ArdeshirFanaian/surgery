@@ -30,8 +30,9 @@ exports.patient_create_get = function(req, res, next) {
 exports.patient_create_post = [
 
     // Validate fields
-    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-    .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
+    check('insurance_id').isLength({ min: 8, max:8 }).trim().withMessage('Insurance ID should be 8 digits'),
+    check('phone_number').isLength({ min: 10, max:10 }).trim().withMessage('Phone Number should be 10 digits'),
     check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
     .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
     check('email').isLength({ min: 1 }).isEmail().withMessage('must be an email').trim().normalizeEmail(),

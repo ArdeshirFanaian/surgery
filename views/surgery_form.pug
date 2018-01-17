@@ -1,15 +1,21 @@
 extends layout
 
 block content
-  h1= title
   script(type='text/javascript').
-        $(document).ready(function() {
-        $('#doctor').multiselect();
-        });
-  form(method='POST' action='')
+    $(document).ready(function() {
+      $('#doctor').multiselect({
+        buttonWidth: '37vw',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+      });
+    });
+    document.getElementById('end_date').setAttribute("min", req.body.start_date);
+  form.col-sm-offset-4(method='POST' action='').col-sm-6
+    h1= title
     div.form-group
       label(for='doctor') Doctor: 
-      select#doctor.form-control(type='select', placeholder='Select doctor' name='doctor' required='true', multiple='multiple')
+      br
+      select#doctor.form-control(type='select' name='doctor' required='true', multiple) 
         for doctor in doctors
           if surgery
             option(value=doctor._id selected=(doctor._id.toString()==doctor._id.toString() ? 'selected' : false) ) #{doctor.name}
@@ -31,7 +37,7 @@ block content
       input#start_time.form-control(type='time', name='start_time' value=(undefined===surgery ? '' : surgery.start_time)  required='true' )
     div.form-group
       label(for='end_date') Surgery end date:
-      input#end_date.form-control(type='date', name='end_date', value=(undefined===surgery ? '' : surgery.end_date)  required='true')
+      input#end_date.form-control(type='date', name='end_date', min= 'start_date' value=(undefined===surgery ? '' : surgery.end_date)  required='true')
     div.form-group
       label(for='end_time') Surgery end time:
       input#end_time.form-control(type='time', name='end_time', value=(undefined===surgery ? '' : surgery.end_time)  required='true')
@@ -40,7 +46,8 @@ block content
       select#status.form-control(type='select', placeholder='Select status' name='status' required='true' )
         option(value='Active' selected=(undefined===surgery || surgery.status!='Active' ? false:'selected')) Active
         option(value='Inactive' selected=(undefined===surgery || surgery.status!='Inactive' ? false:'selected')) Inactive
-    button.btn.btn-primary(type='submit') Submit
+    br
+    button.btn.btn-primary.btn-lg.col-sm-offset-5(type='submit') Submit
 
   if errors 
     ul
