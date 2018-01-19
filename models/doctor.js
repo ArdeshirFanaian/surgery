@@ -6,7 +6,7 @@ var DoctorSchema = new Schema(
   {
     first_name: {type: String, required: true},
     family_name: {type: String, required: true},
-    email: {type: String},
+    email: {type: String, required: true},
     phone_number: {type: Number, required: true}
   }
 );

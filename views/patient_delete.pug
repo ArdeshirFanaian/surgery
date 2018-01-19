@@ -6,22 +6,44 @@ block content
   
   if surgeries.length
   
-    p #[strong Delete the following surgeries before attempting to delete this patient.]
+    h4 #[strong Delete the following surgeries before attempting to delete this patient.]
   
     div(style='margin-left:20px;margin-top:20px')
 
-      h4 Surgeries
-      
-      dl
-      each surgery in surgeries
-        dt
-          a(href=surgery.url) #{surgery.doctor.name} - #{patient.name}
+      h3 Surgeries
+      - var index = 1;
+      ul
+      table.table.table-striped.table-responsive
+        thead
+          tr
+            th(scope='col') #
+            th(scope='col') Doctor/s
+            th(scope='col') Patient
+            th(scope='col') Start Time
+            th(scope='col') End Time
+            th(scope='col') Status
+        tbody
+          each item in surgeries
+            tr
+              th(scope='row') 
+                a(href=item.url) Surgery ##{index++}
+              td 
+                each doc in item.doctor
+                  li
+                    a(href=doc.url) #{doc.name}
+              td 
+                a(href=item.patient.url) #{item.patient.name}
+              td #{item.start_date_formatted}
+              td #{item.end_date_formatted}
+              td #{item.status}
 
   else
-    p Do you really want to delete this patient?
-    
-    form(method='POST' action='')
-      div.form-group
-        input#id.form-control(type='hidden',name='id', required='true', value=patient._id )
-
-      button.btn.btn-primary(type='submit') Delete
+    .container-fluid
+      .jumbotron
+        p.text-center Do you really want to delete this patient?
+        
+        form(method='POST' action='')
+          div.form-group
+            input#id.form-control(type='hidden',name='id', required='true', value=patient._id )
+          br
+          button.btn.btn-primary.btn-lg.center-block(type='submit') Delete

@@ -3,27 +3,31 @@ extends layout
 block content
 
   h1= title
-  p #[strong Do you really want to delete this Surgery?]
-  div(style="margin-left:20px")
-    p #[strong Doctor/s:] 
-      each doc in surgery.doctor
-        li
-          a(href=doc.url) #{doc.name}
-    p #[strong Patient:] 
-      a(href=surgery.patient.url) #{surgery.patient.name}
-    
-    p #[strong Start Date:] #{surgery.start_date_formatted}
-    
-    p #[strong End Date:] #{surgery.end_date_formatted}
+  .container
+    .jumbotron
+      .row
+        .col-sm-offset-3
+          p #[strong Do you really want to delete this Surgery?]
+          div(style="margin-left:20px")
+            p #[strong Doctor/s:] 
+              each doc in surgery.doctor
+                h3
+                  a(href=doc.url) #{doc.name}
+            p #[strong Patient:] 
+              a(href=surgery.patient.url) #{surgery.patient.name}
+            
+            p #[strong Start Date:] #{surgery.start_date_formatted}
+            
+            p #[strong End Date:] #{surgery.end_date_formatted}
 
-    p #[strong Status:] 
-      if surgery.status=='Active'
-        span.text-success #{surgery.status}
-      else 
-        span.text-danger #{surgery.status}
+            p #[strong Status:] 
+              if surgery.status=='Active'
+                span.text-success #{surgery.status}
+              else 
+                span.text-danger #{surgery.status}
 
   form(method='POST' action='')
     div.form-group
       input#id.form-control(type='hidden',name='id', required='true', value=surgery._id )
 
-    button.btn.btn-primary(type='submit') Delete
+    button.btn.btn-primary.btn-lg.center-block(type='submit') Delete

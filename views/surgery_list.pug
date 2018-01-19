@@ -26,14 +26,14 @@ block content
         div.form-group
           label(for='status') Status:
           select#status.form-control(type='select' name='status')
-            option(value='') None
             option(value='Active') Active
             option(value='Inactive') Inactive
-        button.btn.btn-primary(type='submit') Search
+        button.btn.btn-primary.btn-lg.center-block(type='submit') Search
   
-  if found_surgery.length!==0
-    div.found-surgery.col-sm-offset-1.col-sm-8
+  if found_surgery
+    div.found-surgery.col-sm-9
       - var index = 1;
+      h1.text-center= title2
       ul
       table.table.table-striped.table-responsive
         thead
@@ -43,6 +43,7 @@ block content
             th(scope='col') Patient
             th(scope='col') Start Time
             th(scope='col') End Time
+            th(scope='col') Status
         tbody
           each item in found_surgery
             tr
@@ -56,8 +57,9 @@ block content
                 a(href=item.patient.url) #{item.patient.name}
               td #{item.start_date_formatted}
               td #{item.end_date_formatted}
+              td #{item.status}
   else 
-    div.surgery-list.col-sm-offset-1.col-sm-8
+    div.surgery-list.col-sm-9
       - var index = 1;
       h1= title
       ul
@@ -69,6 +71,7 @@ block content
             th(scope='col') Patient
             th(scope='col') Start Time
             th(scope='col') End Time
+            th(scope='col') Status
         tbody
           each item in list
             tr
@@ -82,7 +85,6 @@ block content
                 a(href=item.patient.url) #{item.patient.name}
               td #{item.start_date_formatted}
               td #{item.end_date_formatted}
-
-      br
+              td #{item.status}
       h3 
         a(href='/schedule/surgery/create') + Create new surgery

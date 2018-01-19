@@ -14,3 +14,11 @@ th, td, h1 {
 img {
   align-content: center;
 }
+
+button {
+  display: block;
+}
+
+.red-text {
+  color: red;
+}

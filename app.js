@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var routes = require('./routes/restRoutes')
 var index = require('./routes');
 var users = require('./routes/users');
 var schedule = require('./routes/schedule');
@@ -19,8 +20,10 @@ app.use(helmet());
 //Set up default mongoose connection
 var mongoDB = process.env.MONGODB_URI || 'mongodb://ardeshir:db1234@ds137207.mlab.com:37207/surgery-schedule';
 mongoose.connect(mongoDB);
+
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
+
 //Get the default connection
 var db = mongoose.connection;
 
@@ -41,8 +44,10 @@ app.use(compression()); //Compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-// app.use('/users', users);
+app.use('/users', users);
 app.use('/schedule', schedule);
+
+routes(app); //RESTful route 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
