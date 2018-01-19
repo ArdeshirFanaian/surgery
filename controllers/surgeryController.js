@@ -9,11 +9,9 @@ const { sanitizeBody } = require('express-validator/filter');
 // Display all surgeries
 exports.surgery_list = async (req, res, next) => {
   try {
-    const surgery = await Surgery.find().populate('doctor')
-    .populate('patient')
     const doctors = await Doctor.find()
     const patients = await Patient.find()
-    var findObj = {
+    const findObj = {
       'doctor': req.query.doctor,
       'patient': req.query.patient,
       'start_date': req.query.start_date,
@@ -21,32 +19,20 @@ exports.surgery_list = async (req, res, next) => {
       'status': req.query.status
     }
     for (i in findObj) {
-      if (findObj[i]==='') {
+      if (!findObj[i]) {
         delete findObj[i]
       }
     }
-    if (findObj.doctor!=undefined || findObj.patient!=undefined || findObj.start_date!=undefined|| findObj.end_date!=undefined|| findObj.status!=undefined) {
-      const surgeries = await Surgery.find(findObj).populate('doctor')
-      .populate('patient');
-      res.render('surgery_list', {
-        title: 'Surgery List',
-        title1: 'Find Surgeries',
-        title2: 'Search Results',
-        list: surgery,
-        found_surgery: surgeries,
-        doctors: doctors,
-        patients: patients,
-      })
-    } else {
-      res.render('surgery_list', {
-        title: 'Surgery List',
-        title1: 'Find Surgeries',
-        title2: 'Search Results',
-        list: surgery,
-        doctors: doctors,
-        patients: patients,
-      })
-    }
+    const surgeries = await Surgery.find(findObj).populate('doctor')
+    .populate('patient');
+    res.render('surgery_list', {
+      title: 'Surgery List',
+      title1: 'Find Surgeries',
+      title2: 'Search Results',
+      list: surgeries,
+      doctors: doctors,
+      patients: patients,
+    })
   } catch (e) {
     return next(e)
   }
