@@ -25,7 +25,7 @@ exports.surgery_list = async (req, res, next) => {
         delete findObj[i]
       }
     }
-    if (findObj.doctor!=undefined) {
+    if (findObj.doctor!=undefined || findObj.patient!=undefined || findObj.start_date!=undefined|| findObj.end_date!=undefined|| findObj.status!=undefined) {
       const surgeries = await Surgery.find(findObj).populate('doctor')
       .populate('patient');
       res.render('surgery_list', {
