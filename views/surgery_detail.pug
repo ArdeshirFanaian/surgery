@@ -11,8 +11,7 @@ block content
             h3 #{doc.name}
       h3 #[strong Patient:] 
         a(href=surgery.patient.url) #{surgery.patient.name}
-      h3 #[strong Start Date:] #{surgery.start_date_formatted}
-      h3 #[strong End Date:] #{surgery.end_date_formatted}
+      h3 #[strong Surgery Date:] #{surgery.date_time_formatted}
       h3 #[strong Status:] 
         if surgery.status=='Active'
           span.text-success #{surgery.status}
@@ -23,4 +22,4 @@ block content
     h3.text-center
       a(href=surgery.url+'/delete') Delete Surgery
     h3.text-center
-      a(href=surgery.url+'/update') Update Surgery
+      a(href=surgery.url+'/update') Edit Surgery

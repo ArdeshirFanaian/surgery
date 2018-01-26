@@ -64,7 +64,7 @@ exports.doctor_create_post = [
             res.render('doctor_form', { title: 'Create Doctor', doctor: doctor, errors: errors.array() });
         } else {
             // Data from form is valid.
-            doctor.save((err) => {
+            doctor.save((e) => {
               try {
                 res.redirect(doctor.url);
               } catch (e) {

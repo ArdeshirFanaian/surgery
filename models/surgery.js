@@ -7,9 +7,8 @@ var SurgerySchema = new Schema(
   {
     doctor: [{type: Schema.ObjectId, ref: 'Doctor', required: true}],
     patient: {type: Schema.ObjectId, ref: 'Patient', required: true},
-    start_date: {type: String, required: true},
+    date: {type: Date, required: true},
     start_time: {type: String, required: true},
-    end_date: {type: String, required: true},
     end_time: {type: String, required: true},
     status: {type: String, enum: ['Inactive', 'Active'], default: 'Active'},
   }
@@ -23,15 +22,15 @@ SurgerySchema
 });
 
 SurgerySchema
-.virtual('start_date_formatted')
+.virtual('date_formatted')
 .get(function () {
-  return moment(this.start_date + ' ' + this.start_time).format('LLL');
+  return moment(this.date).format('LL');
 });
 
 SurgerySchema
-.virtual('end_date_formatted')
+.virtual('date_time_formatted')
 .get(function () {
-  return moment(this.end_date + ' ' + this.end_time).format('LLL');
+  return this.date_formatted + ' ' + this.start_time + ' - ' + this.end_time;
 });
 
 

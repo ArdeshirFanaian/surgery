@@ -16,9 +16,7 @@ block content
             p #[strong Patient:] 
               a(href=surgery.patient.url) #{surgery.patient.name}
             
-            p #[strong Start Date:] #{surgery.start_date_formatted}
-            
-            p #[strong End Date:] #{surgery.end_date_formatted}
+            p #[strong Surgery Date:] #{surgery.date_formatted}
 
             p #[strong Status:] 
               if surgery.status=='Active'

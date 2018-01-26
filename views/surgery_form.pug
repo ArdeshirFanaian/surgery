@@ -13,6 +13,13 @@ block content
     h3.text-center Please correct following items first:
     for error in errors
       h4.red-text.col-sm-offset-4!= error.msg
+  if overlapSurgeries
+    h3.text-center Please correct following error/s:
+    each surgery in overlapSurgeries
+      each doctor in selectedDoctor
+        h4.red-text.col-sm-offset-4 Dr. #{doctor} has another active surgery at #{surgery.date_time_formatted}
+    h4.red-text.col-sm-offset-4 Please choose another date or time or doctor and submit the form again
+    
   form.col-sm-offset-4(method='POST' action='').col-sm-6
     h1= title
     div.form-group
@@ -21,7 +28,7 @@ block content
       select#doctor.form-control(type='select' name='doctor' required='true', multiple='multiple') 
         for doctor in doctors
           if surgery
-            option(value=doctor._id selected=(doctor._id===surgery.doctor._id ? 'selected' : false) ) #{doctor.name}
+            option(value=doctor._id) #{doctor.name}
           else
             option(value=doctor._id) #{doctor.name}
     div.form-group
@@ -29,18 +36,15 @@ block content
       select#patient.form-control(type='select', placeholder='Select patient' name='patient' required='true' )
         for patient in patients
           if surgery
-            option(value=patient._id selected=(patient._id.toString()==surgery.patient._id.toString() ? 'selected' : false) ) #{patient.name}
+            option(value=patient._id selected=(patient._id.toString()===surgery.patient._id.toString() ? 'selected' : false) ) #{patient.name}
           else
             option(value=patient._id) #{patient.name}
     div.form-group
-      label(for='start_date') Surgery start date:
-      input#start_date.form-control(type='date', name='start_date' value=(undefined===surgery ? '' : surgery.start_date)  required='true' )
+      label(for='date') Surgery date:
+      input#date.form-control(type='date', name='date' required='true' )
     div.form-group
       label(for='start_time') Surgery start time:
       input#start_time.form-control(type='time', name='start_time' value=(undefined===surgery ? '' : surgery.start_time)  required='true' )
-    div.form-group
-      label(for='end_date') Surgery end date:
-      input#end_date.form-control(type='date', name='end_date', min= 'start_date' value=(undefined===surgery ? '' : surgery.end_date)  required='true')
     div.form-group
       label(for='end_time') Surgery end time:
       input#end_time.form-control(type='time', name='end_time', value=(undefined===surgery ? '' : surgery.end_time)  required='true')
