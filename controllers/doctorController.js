@@ -32,13 +32,15 @@ exports.doctor_create_get = (req, res, next) => {
 exports.doctor_create_post = [
 
     // Validate fields
-    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-    .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
-    check('phone_number').isLength({ min: 10, max: 10 }).trim().withMessage('Phone Number should be 10 digits'),
-    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
-    .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
-    check('email').isEmail().isLength({ min: 1 }).withMessage('must be an email').trim().normalizeEmail(),
-
+    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
+    check('first_name').isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.'),
+    check('family_name').isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    check('phone_number').isLength({ min: 1 }).trim().withMessage('Phone Number must be specified'),
+    check('phone_number').matches(/\d/).trim().withMessage('Phone Number must be a number'),
+    check('phone_number').isLength({ min: 10, max:10 }).trim().withMessage('Phone Number should be 10 digits'),
+    check('email').isLength({ min: 1 }).withMessage('Email should not be empty').trim(),
+    check('email').isEmail().withMessage('Invalid email address').trim().normalizeEmail(),
     // Sanitize fields
     sanitizeBody('first_name').trim().escape(),
     sanitizeBody('family_name').trim().escape(),
@@ -108,10 +110,10 @@ exports.doctor_delete_get = async (req, res, next) => {
 // Handle Doctor delete on POST
 exports.doctor_delete_post = async (req, res, next) => {
   try {
-    const doctor = await Doctor.findById(req.body.id);
     const surgeries = await Surgery.find({ 'doctor': req.body.id });
     if (surgeries.length > 0) {
       // Doctor has surgery. Render in same way as for GET route.
+      const doctor = await Doctor.findById(req.body.id);
       res.render('doctor_delete', { title: 'Delete Doctor', doctor: doctor, suregeries: surgeries });
     } else {
       // Doctor has no surgeries. Delete object and redirect to the list of doctors.
@@ -148,12 +150,15 @@ exports.doctor_update_get = async (req, res, next) => {
 exports.doctor_update_post = [
 
     // Validate fields
-    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-    .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
-    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
-    .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
-    check('email').isEmail().isLength({ min: 1 }).withMessage('must be an email').trim().normalizeEmail(),
-
+    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
+    check('first_name').isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.'),
+    check('family_name').isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    check('phone_number').isLength({ min: 1 }).trim().withMessage('Phone Number must be specified'),
+    check('phone_number').matches(/\d/).trim().withMessage('Phone Number must be a number'),
+    check('phone_number').isLength({ min: 10, max:10 }).trim().withMessage('Phone Number should be 10 digits'),
+    check('email').isLength({ min: 1 }).withMessage('Email should not be empty').trim(),
+    check('email').isEmail().withMessage('Invalid email address').trim().normalizeEmail(),
     // Sanitize fields
     sanitizeBody('first_name').trim().escape(),
     sanitizeBody('family_name').trim().escape(),

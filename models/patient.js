@@ -9,6 +9,13 @@ var PatientSchema = new Schema(
     phone_number: {type: Number, required: true, minlength: 11, maxlength: 11},
     email: {type: String},
     insurance_id: {type: Number, minlength: 8, maxlength: 8, required: true},
+  }, {
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
+    }
   }
 );
 

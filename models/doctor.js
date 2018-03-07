@@ -8,6 +8,13 @@ var DoctorSchema = new Schema(
     family_name: {type: String, required: true},
     email: {type: String, required: true},
     phone_number: {type: Number, required: true}
+  }, {
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
+    }
   }
 );
 

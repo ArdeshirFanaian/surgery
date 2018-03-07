@@ -28,12 +28,17 @@ exports.patient_create_post = [
 
     // Validate fields
     check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
+    check('first_name').isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.'),
+    check('family_name').isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    check('insurance_id').isLength({ min: 1}).trim().withMessage('Insurance ID must be specified'),
+    check('insurance_id').matches(/\d/).trim().withMessage('Insurance ID must be a number'),
     check('insurance_id').isLength({ min: 8, max:8 }).trim().withMessage('Insurance ID should be 8 digits'),
+    check('phone_number').isLength({ min: 1 }).trim().withMessage('Phone Number must be specified'),
+    check('phone_number').matches(/\d/).trim().withMessage('Phone Number must be a number'),
     check('phone_number').isLength({ min: 10, max:10 }).trim().withMessage('Phone Number should be 10 digits'),
-    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
-    .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
-    check('email').isLength({ min: 1 }).isEmail().withMessage('must be an email').trim().normalizeEmail(),
-
+    check('email').isLength({ min: 1 }).withMessage('Email should not be empty').trim(),
+    check('email').isEmail().withMessage('Invalid email address').trim().normalizeEmail(),
     // Sanitize fields
     sanitizeBody('first_name').trim().escape(),
     sanitizeBody('family_name').trim().escape(),
@@ -146,13 +151,19 @@ exports.patient_update_get = async (req, res, next) => {
 exports.patient_update_post = [
 
     // Validate fields
-    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-    .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.'),
+    check('first_name').isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
+    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.'),
+    check('family_name').isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
+    check('insurance_id').isLength({ min: 1}).trim().withMessage('Insurance ID must be specified'),
+    check('insurance_id').matches(/\d/).trim().withMessage('Insurance ID must be a number'),
     check('insurance_id').isLength({ min: 8, max:8 }).trim().withMessage('Insurance ID should be 8 digits'),
-    check('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
-    .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
-    check('email').isEmail().isLength({ min: 1 }).withMessage('must be an email').trim().normalizeEmail(),
-
+    check('phone_number').isLength({ min: 1 }).trim().withMessage('Phone Number must be specified'),
+    check('phone_number').matches(/\d/).trim().withMessage('Phone Number must be a number'),
+    check('phone_number').isLength({ min: 10, max:10 }).trim().withMessage('Phone Number should be 10 digits'),
+    check('email').isLength({ min: 1 }).withMessage('Email should not be empty').trim(),
+    check('email').isEmail().withMessage('Invalid email address').trim().normalizeEmail(),
+    
     // Sanitize fields
     sanitizeBody('first_name').trim().escape(),
     sanitizeBody('family_name').trim().escape(),

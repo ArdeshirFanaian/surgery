@@ -3,14 +3,8 @@ const Patient = require('../models/patient');
 const Doctor = require('../models/doctor');
 const async = require('async');
 
-
-const {
-  check,
-  validationResult
-} = require('express-validator/check');
-const {
-  sanitizeBody
-} = require('express-validator/filter');
+const { check, validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
 
 // Display all surgeries
 exports.surgery_list = async (req, res, next) => {
@@ -175,8 +169,7 @@ exports.surgery_create_post = [
           }
           const doctors = await Doctor.find().sort([ ['first_name', 'ascending'] ])
           const patients = await Patient.find().sort([ ['first_name', 'ascending'] ])
-          res.render('surgery_form', { title: 'Create Surgery', doctors: doctors, patients: patients,
-          surgery: surgery, overlapSurgeries: overlapSurgeries, selectedDoctor: selectedDoctor });
+          res.render('surgery_form', { title: 'Create Surgery', doctors: doctors, patients: patients, overlapSurgeries: overlapSurgeries, selectedDoctor: selectedDoctor });
         } else {
           surgery.save((e) => {
             try {

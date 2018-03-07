@@ -5,6 +5,10 @@ module.exports = function(app) {
 	var restPatientController = require('../controllers/restPatientController');
 	var restSurgeryController = require('../controllers/restSurgeryController');
 
+	// Index Route
+	app.route('/api/')
+		.get(restDoctorController.index)
+
 	// Doctor Routes
 	app.route('/api/doctors')
 		.get(restDoctorController.list_all_doctors)
@@ -28,6 +32,7 @@ module.exports = function(app) {
 	// Surgery Routes
 	app.route('/api/surgeries')
 		.get(restSurgeryController.list_all_surgeries)
+		.post(restSurgeryController.list_all_surgeries)
 		.post(restSurgeryController.create_a_surgery);
 
 	app.route('/api/surgeries/:surgeryId')

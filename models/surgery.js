@@ -11,6 +11,13 @@ var SurgerySchema = new Schema(
     start_time: {type: String, required: true},
     end_time: {type: String, required: true},
     status: {type: String, enum: ['Inactive', 'Active'], default: 'Active'},
+  }, {
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
+    }
   }
 );
 
